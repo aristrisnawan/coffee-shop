@@ -1,3 +1,5 @@
+import 'package:cofee_shop/util/coffee_tile.dart';
+import 'package:cofee_shop/util/coffee_type.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -52,12 +54,41 @@ class HomePage extends StatelessWidget {
                                   BorderSide(color: Colors.grey.shade600),
                               borderRadius: BorderRadius.circular(20))),
                     ),
-
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //Horizontal listview menu
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          CoffeType(coffeeType: 'Cappucino',isSelected: true,),
+                          CoffeType(coffeeType: 'Expresso'),
+                          CoffeType(coffeeType: 'Latte'),
+                          CoffeType(coffeeType: 'Black'),
+                        ],
+                      ),
+                    ),
                     //Horizontal scroll
                     SizedBox(
                       height: 20,
                     ),
-                    
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 330,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          CofeeTile(),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          CofeeTile(),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
