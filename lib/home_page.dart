@@ -3,13 +3,40 @@ import 'package:cofee_shop/util/coffee_type.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //List of coffe type
+  final List coffeeType = [
+    //[Coffe type, isSelected]
+    ['Cappucino', true],
+    ['Latte', false],
+    ['Black', false],
+    ['Tea', false],
+  ];
+  // User taped on coffe type
+  void CoffeTypeSelected(int index) {
+    setState(() {
+      //this for loop makes every selected false
+      for (var i = 0; i < coffeeType.length; i++) {
+        coffeeType[i][1] = false;
+      }
+      coffeeType[index][1] = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(items: [
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 5,
+          backgroundColor: Colors.grey[700],
+          items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ""),
@@ -59,18 +86,20 @@ class HomePage extends StatelessWidget {
                     ),
                     //Horizontal listview menu
                     Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          CoffeType(coffeeType: 'Cappucino',isSelected: true,),
-                          CoffeType(coffeeType: 'Expresso'),
-                          CoffeType(coffeeType: 'Latte'),
-                          CoffeType(coffeeType: 'Black'),
-                        ],
-                      ),
-                    ),
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: coffeeType.length,
+                            itemBuilder: ((context, index) {
+                              return new CoffeType(
+                                coffeeType: coffeeType[index][0],
+                                onTap: () {
+                                  CoffeTypeSelected(index);
+                                },
+                                isSelected: coffeeType[index][1],
+                              );
+                            }))),
                     //Horizontal scroll
                     SizedBox(
                       height: 20,
@@ -81,13 +110,32 @@ class HomePage extends StatelessWidget {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          CofeeTile(),
+                          CofeeTile(
+                            coffeImagePath: "assets/coffe.jpg",
+                            coffeName: "Cappucino",
+                            coffePrice: '4.0',
+                          ),
                           SizedBox(
                             width: 20,
                           ),
-                          CofeeTile(),
+                          CofeeTile(
+                            coffeImagePath: "assets/coffee1.jpg",
+                            coffeName: "Late",
+                            coffePrice: '5.0',
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          CofeeTile(
+                            coffeImagePath: "assets/coffee2.jpg",
+                            coffeName: "Late",
+                            coffePrice: '5.0',
+                          ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     )
                   ],
                 ),
